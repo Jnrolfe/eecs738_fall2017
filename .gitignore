@@ -1,6 +1,7 @@
 *.aux
 *.tex
 *.log
+*.bak
 *.pdf
 *.gz
 *.zip
