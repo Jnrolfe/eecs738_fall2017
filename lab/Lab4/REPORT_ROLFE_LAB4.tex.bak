@@ -1,0 +1,28 @@
+\documentclass[12pt]{article}
+
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{etoolbox}
+
+\begin{document}
+
+\begin{flushleft}
+\textbf{Name: James Rolfe} \\
+\textbf{Date: \today} \\
+\textbf{Student ID: 2630058} \\
+\textbf{Course: EECS 738}
+\end{flushleft}
+
+\begin{center}
+\large\textbf{Lab 4 Report}
+\end{center}
+\textit{** Using Late Day **}
+\section*{\normalsize\textbf{Part 1}}
+For Part 1 the scikit-learn LinearRegression library was used. The function returns a training MSE of \texttt{1.030} and a testing MSE of \texttt{1.034}. This has already been performed and explained in a previous lab.
+\section*{\normalsize\textbf{Part 2}}
+Using the LMS algortihm, a training MSE similar to that of the OLS solution can be achieved, however it takes many, many iterations. To achieve a training MSE of \texttt{1.051} only 1000 iterations of the LMS batch algorithm is needed. In this context batch means that all the training samples are used to calculate the each new weight. The learning rate in this case is set to \texttt{0.0001}, any larger and the MSE will not converge, any smaller and the amount of iterations needed is significantly greater. I was not able to implement online or mini-batch learning; however, I can hypothesize that online learning will require a higher learning rate in order to converge to a relatively small MSE in 1000 iterations. Smaller batch sizes should result in smaller MSE's when the targets are clustered since the weights will be fitted to a distinct number of samples. With a very large number of iterations, any mini-batch size will approach the same solution as the batch.
+\section*{\normalsize\textbf{Part 3}}
+I was unable to implement the perceptron learning algorithm. With more time, I would implement a function to choose \texttt{N} predictions to check and change where \texttt{N} is equal to the batch size. This should result in a threshold for chosing class 0 versus 1.
+\end{document}

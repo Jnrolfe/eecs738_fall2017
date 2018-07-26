@@ -1,0 +1,27 @@
+===== LinearRegression.py =====
+Betas without Regularization
+[[  8.84042349e-01  -5.24551809e-02  -1.09073507e-16]]
+MSE for Betas without Regularization: 0.261373416032
+
+Betas with Regularization
+[[  7.70702963e-01   9.76549239e-03  -1.10692850e-16]]
+MSE for Betas with Regularization: 0.270114689789
+
+===== LogisticRegression.py =====
+Beta coeffecients calculated using Gradient Descent
+[[ 1.28609914  1.1531973   0.46660748]]
+Confusion Matrix using betas from Gradient Descent
+Predicted   0   1
+True             
+0          35   5
+1           5  55
+Accuracy = 90.0%
+
+Beta coeffecients calculated using SciPy Optimization
+[[ 4.01270369  3.7436883   1.71837599]]
+Confusion Matrix using betas from SciPy Optimization
+Predicted   0   1
+True             
+0          34   6
+1           5  55
+Accuracy = 89.0%

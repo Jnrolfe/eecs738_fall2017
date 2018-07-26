@@ -1,0 +1,121 @@
+\documentclass[12pt]{article}
+
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{etoolbox}
+
+\begin{document}
+
+\begin{flushleft}
+\textbf{Name: James Rolfe} \\
+\textbf{Date: \today} \\
+\textbf{Student ID: 2630058} \\
+\textbf{Course: EECS 738}
+\end{flushleft}
+
+\begin{center}
+\large\textbf{Lab 5 Report}
+\end{center}
+\textit{** Using 1 Late Day **}
+\section*{\normalsize\textbf{Code Flow}}
+The code starts declaring the two cluster's actual statistics (parameters) then generates 100 random samples from each cluster. Then a bad initial guess of the parameters is declared. The rest of the code consists of function declarations and a while loop that just calls the functions and checks for convergence. If convergence is not detected then the loop keeps iterating.\\
+\newline
+The functions called within the while loop are \texttt{expectation()} and \texttt{maximization()}. The expectation function simply goes through each data point labeled as either cluster 1 or cluster 2 then uses the PDF of a multivariate normal to compute the probability of that point being generated from that normal. Then using those probabilities, it assigns each point the cluster with the highest probability. The expectation function finds the parameters (mean, variance, alpha) of the newly labeled point. It accomplishes this through calls to native \texttt{pandas.DataFrame()} attributes such as \texttt{mean(), std()}.
+\section*{\normalsize\textbf{Testing for Convergence}}
+Within the while loop mentioned in the \textit{Code Flow} section, a test for convergence is made. The test I choose for convergence is simply checking if a data point has changed clusters. I chose this test because if no data points have changed clusters then the parameters will not change and if the parameters don't change then no data points will change clusters. This seems very simple and intuitive, but has the capacity to backfire if the true parameters of each cluster are very similar. This is because some data points will just keep switching back and forth and may never actually settle even thought the parameters are minimally changing each iteration. However, this is not a problem in this lab because the parameters of each cluster differ significantly.
+\section*{\normalsize\textbf{Results}}
+My code detects convergence after 8 iterations. The raw output follows:
+\begin{verbatim}
+alpha        mu   muPrime                 sig            sigPrime
+0   0.65  2.190936  4.559184  [3.01220154066, 0]  [3.82938440565, 0]
+1   0.35  2.444531  4.164424   [0, 3.2731420982]  [0, 3.76474812017]
+   alpha        mu   muPrime                 sig            sigPrime
+0  0.635  1.541128  5.592346  [2.53613696222, 0]  [3.46862324768, 0]
+1  0.365  3.200373  2.778785  [0, 3.25547113388]  [0, 3.99824226727]
+   alpha        mu   muPrime                 sig            sigPrime
+0  0.575  0.413978  6.545378  [1.69686159839, 0]  [1.79890374121, 0]
+1  0.425  5.263865  0.046521  [0, 2.79655160711]  [0, 1.80150780818]
+   alpha        mu  muPrime                 sig            sigPrime
+0  0.525  0.175200  6.16388   [1.5743859645, 0]  [2.03942063205, 0]
+1  0.475  5.843125 -0.04452  [0, 2.35674705826]  [0, 1.41443245949]
+   alpha        mu   muPrime                 sig            sigPrime
+0  0.505  0.092209  6.006580  [1.53448965791, 0]  [2.15047045277, 0]
+1  0.495  6.038569 -0.006028  [0, 2.16225926083]  [0, 1.42991118602]
+   alpha        mu   muPrime                 sig            sigPrime
+0  0.485  0.020914  5.844038  [1.50313759682, 0]  [2.27231043885, 0]
+1  0.515  6.229417  0.048983  [0, 1.96628913806]  [0, 1.45269379443]
+   alpha        mu   muPrime                 sig            sigPrime
+0   0.48  0.005600  5.802183  [1.50340149008, 0]  [2.30118559393, 0]
+1   0.52  6.274934  0.066395  [0, 1.92455588436]  [0, 1.45648935515]
+   alpha        mu   muPrime                 sig            sigPrime
+0   0.48  0.005600  5.802183  [1.50340149008, 0]  [2.30118559393, 0]
+1   0.52  6.274934  0.066395  [0, 1.92455588436]  [0, 1.45648935515]
+
+total iters: 8
+final params: 
+   alpha        mu   muPrime                 sig            sigPrime
+0   0.48  0.005600  5.802183  [1.50340149008, 0]  [2.30118559393, 0]
+1   0.52  6.274934  0.066395  [0, 1.92455588436]  [0, 1.45648935515]
+\end{verbatim}
+Here we see that the final parameters are close to the true parameters (see below). Therefore we can conclude that the classification is successful.
+\begin{verbatim}
+true params: 
+   alpha        mu   muPrime                 sig            sigPrime
+0   0.50  0.000000  6.000000  [3.00000000000, 0]  [5.00000000000, 0]
+1   0.50  6.000000  0.000000  [0, 4.00000000000]  [0, 2.00000000000]
+\end{verbatim}
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{iter_1.png}
+  \caption{first iteration}
+  \label{fig:sfig1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{iter_2.png}
+  \caption{second iteration}
+  \label{fig:sfig2}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{iter_3.png}
+  \caption{third iteration}
+  \label{fig:sfig3}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{iter_4.png}
+  \caption{fourth iteration}
+  \label{fig:sfig4}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{iter_5.png}
+  \caption{fifth iteration}
+  \label{fig:sfig5}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{iter_6.png}
+  \caption{sixth iteration}
+  \label{fig:sfig6}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{iter_7.png}
+  \caption{seventh iteration}
+  \label{fig:sfig7}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{iter_8.png}
+  \caption{eighth iteration}
+  \label{fig:sfig8}
+\end{subfigure}
+\caption{plots of iterations -- data points changing cluster label}
+\label{fig:fig}
+\end{figure}
+\end{document}

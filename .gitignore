@@ -1,0 +1,14 @@
+*.aux
+*.tex
+*.log
+*.pdf
+*.gz
+*.zip
+**/rolfe_kaggle2_report_and_code/
+*.pptx
+**/SUBMISSION_ROLFE_LAB4/
+**/EECS738_ROLFE_LAB3/
+**/EECS738_ROLFE_LAB2/
+**/EECS738_ROLFE_LAB1/
+**/ROLFE_SUBMISSION_LAB5/
+**/ROLFE_SUBMISSION_LAB6/

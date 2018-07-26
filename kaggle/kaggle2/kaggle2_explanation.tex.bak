@@ -1,0 +1,50 @@
+\documentclass[12pt]{article}
+
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{etoolbox}
+
+\begin{document}
+
+\begin{flushleft}
+\textbf{Name: James Rolfe} \\
+\textbf{Date: \today} \\
+\textbf{Student ID: 2630058} \\
+\textbf{Course: EECS 738}
+\end{flushleft}
+
+\begin{center}
+\large\textbf{Second Kaggle Competition Explanation}
+\end{center}
+
+\section*{\normalsize\textbf{Kaggle Competition Info}}
+Email: \texttt{J391R953@ku.edu} \\
+Username: \texttt{james\_rolfe}
+\section*{\normalsize\textbf{Explanation of Results and Methods}}
+For this competition we were tasked to fit 2 different models that classify the forest cover type of 30 meter by 30 meter cells into one of 7 designations. The given data had 29051 training observations that then should predict on 116203 observations. As I do not have much experience with forest cover types, my first step into fitting the data was to try a wide range of different models. Using the python library \texttt{scikit-learn} for almost every model, I generated the following:
+\begin{itemize}
+\item K-Nearest Neighbors
+\item Support Vector Machine
+\item Neural Net -- Multi-Layer Perceptron
+\item Random Forest
+\item Linear Logistic
+\end{itemize}
+
+\noindent
+After coding up the models I used 10-fold cross-validation to find which model(s) were the best. For the last Kaggle competition I did all the cross-validation by hand, this time I used \texttt{scikit-learn.model\_selection.KFold} with \texttt{scikit-learn.model\_selection.cross\_val}\\ \texttt{\_score} to expedite the process. As a result of the cross-validation scoring I found that only the K-Nearest Neighbors and Random Forest models had accuracies around 80\%. All the other models were 60\% and below. From here I started tuning the parameters of each model to get the highest cross-validated score. I found that K-Nearest Neighbors had the highest accuracy when the parameter 'number of neighbors' is set to 1 and Random Forest had the highest score when the parameter 'number of estimators' is set to 90. These were found using a binary search algorithm and a for loop. Both of the tuned models were producing cross-validated accuracy of about 82\%. I confirmed the accuracy by submitting the predictions of each. \\
+\newline
+At this point I know which type of models produce the best predictions so I turned my attention to making them better with various ensemble techniques. I tried bagging, adaboost, and voting all sourced from \texttt{scikit-learn.ensemble}. First I implemented adaboost which didn't seem to effect the accuracy at all. I think that the adaboost parameters were not large enough to make each model weight miss-classified points heavy enough to have significant impact. Before I realized the parameters on adaboost I moved to bagging which immediately increased both model's accuracy to about 85\%. From here I wasted a lot of time waiting for larger and larger bag-size models to compute because I was running 10-fold cross-validation on each bagging model. After realizing that, I changed to 1-fold cross-validation and found that bagging models had diminishing returns on accuracy after roughly 75 bags. With the bagging model topping out at about 86\% accuracy I tried a voting model. My voting model consisted of 5 bagged K-Nearest Neighbor and 5 bagged Random Forest models. The bagged voting model's runtime took way too long as I stopped it after 2 hours of constant running. So I tried the voting model again with the same non-bagged models. This voting model also scored about 86\% cross-validated accuracy. From here I changed the voting weights on the model in a way that is reflective of each model's confidence. The weighted voting model finally broke 86\% with a cross-validated accuracy of 87.8\%.\\
+\newline
+My cross-validation and voting code is based upon code found at: \\ 
+\texttt{http://machinelearningmastery.com/ensemble-machine-learning-algorithms-python}\\
+\texttt{-scikit-learn/} by Dr. Jason Brownlee.
+
+\section*{\normalsize\textbf{Failures}}
+For the last weighted voting model I wanted to find models heavily varied in what points they miss-classified. I attempted to find these models by printing out and analyzing the confusion matrices for each model. I thought that if I could find one model for each class that predicts that one class well, I could weight the votes in such a way that the resulting voting model would be extremely accurate. Unfortunately, the confusion matrix analysis of all the models I made did not have unique variations on their classifications. Thus, I found the increasing the number of models in the voting model actually decreased the accuracy after about 10 models. This is most likely because the variance between each model was being washed out. 
+
+\section*{\normalsize\textbf{Final Submissions}}
+For my final submissions I chose the weighted voting model and the bagged K-Nearest Neighbor model. If I had not run out of time, I would have left a bagged weighted voting model to run overnight.
+
+\end{document}

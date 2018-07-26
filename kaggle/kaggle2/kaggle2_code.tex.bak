@@ -1,0 +1,609 @@
+\documentclass[12pt]{article}
+
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{etoolbox}
+
+\makeatletter
+\patchcmd{\@verbatim}
+  {\verbatim@font}
+  {\verbatim@font\small}
+  {}{}
+\makeatother
+
+\begin{document}
+
+\begin{verbatim}
+\end{verbatim}
+
+\begin{flushleft}
+\textbf{Name: James Rolfe} \\
+\textbf{Date: \today} \\
+\textbf{Student ID: 2630058} \\
+\textbf{Course: EECS 738}
+\end{flushleft}
+
+\begin{center}
+\large\textbf{Second Kaggle Competition Code}
+\end{center}
+
+\section*{\normalsize\textbf{K-Nearest Neighbors CODE}}
+\begin{verbatim}
+"""
+@filename: knn.py
+@author: James Rolfe
+@date: 20170507
+@reqs: trainTargets.csv, trainTargets.csv, testPredictors.csvs
+"""
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import csv
+
+# cross validation
+from sklearn import model_selection
+
+from sklearn.metrics import accuracy_score
+
+from sklearn.neighbors import KNeighborsClassifier
+
+# get models
+from sklearn.ensemble import RandomForestClassifier
+# ============================================================================
+## preprocess data
+# training data sets
+df_X = pd.read_csv('trainPredictors.csv')
+df_Y = pd.read_csv('trainTargets.csv')
+
+X_ids = df_X['id']
+Y_ids = df_Y['id']
+
+df_X = df_X.drop('id', axis=1)
+df_Y = df_Y.drop('id', axis=1)
+
+print(df_X.shape)
+print(df_Y.shape)
+
+# testing data set, this is what the submission should be based upon
+df_test_X = pd.read_csv('testPredictors.csv')
+df_test_X_ids = df_test_X['id']
+df_test_X = df_test_X.drop('id', axis=1)
+
+# testing
+# print(df_test_X.shape)
+# print(np.ravel(df_Y.values[:10]))
+
+# ============================================================================
+# prep cv
+k = model_selection.KFold(n_splits = 10)
+
+ns = [1] # best is 90
+results = [0] * len(ns)
+i = 0
+
+for n in ns:
+    clf = KNeighborsClassifier(n_neighbors=n)
+    result = model_selection.cross_val_score(clf, df_X.values,
+        np.ravel(df_Y.values), cv=k)
+    results[i] = result.mean()
+    print(result.mean())
+    i += 1
+print('best n: ' + str(ns[results.index(max(results))]))
+
+# predictions = clf.predict(df_test_X.values[:20000])
+# print(predictions)
+
+\end{verbatim} 
+
+\section*{\normalsize\textbf{Support Vector Machine CODE}}
+\begin{verbatim}
+"""
+@filename: svm.py
+@author: James Rolfe
+@date: 20170507
+@reqs: trainTargets.csv, trainTargets.csv, testPredictors.csvs
+"""
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import csv
+
+# get svm
+from sklearn import svm
+
+from sklearn import model_selection
+
+# training data sets
+df_X = pd.read_csv('trainPredictors.csv')
+df_Y = pd.read_csv('trainTargets.csv')
+
+X_ids = df_X['id']
+Y_ids = df_Y['id']
+
+df_X = df_X.drop('id', axis=1)
+df_Y = df_Y.drop('id', axis=1)
+
+# testing data set, this is what the submission should be based upon
+df_test_X = pd.read_csv('testPredictors.csv')
+
+df_test_X_ids = df_test_X['id']
+
+df_test_X = df_test_X.drop('id', axis=1)
+
+
+# prep cv
+k = model_selection.KFold(n_splits = 10)
+
+ns = [90] # best is 90
+results = [0] * len(ns)
+i = 0
+
+for n in ns:
+    clf = svm.SVC()
+    result = model_selection.cross_val_score(clf, df_X.values,
+        np.ravel(df_Y.values), cv=k)
+    results[i] = result.mean()
+    print(result.mean())
+    i += 1
+print('best n: ' + str(ns[results.index(max(results))]))
+
+\end{verbatim}
+
+\section*{\normalsize\textbf{Neural Net CODE}}
+\begin{verbatim}
+"""
+@filename: nn.py
+@author: James Rolfe
+@date: 20170507
+@reqs: trainTargets.csv, trainTargets.csv, testPredictors.csvs
+"""
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import csv
+
+# cross validation
+from sklearn import model_selection
+
+# get svm
+from sklearn.neural_network import MLPClassifier
+
+# ============================================================================
+## preprocess data
+# training data sets
+df_X = pd.read_csv('trainPredictors.csv')
+df_Y = pd.read_csv('trainTargets.csv')
+
+X_ids = df_X['id']
+Y_ids = df_Y['id']
+
+df_X = df_X.drop('id', axis=1)
+df_Y = df_Y.drop('id', axis=1)
+
+print(df_X.shape)
+print(df_Y.shape)
+
+# testing data set, this is what the submission should be based upon
+df_test_X = pd.read_csv('testPredictors.csv')
+df_test_X_ids = df_test_X['id']
+df_test_X = df_test_X.drop('id', axis=1)
+
+# testing
+# print(df_test_X.shape)
+# print(np.ravel(df_Y.values[:10]))
+
+# ============================================================================
+
+# cv
+k = model_selection.KFold(n_splits = 10)
+
+alphas = [1]
+results = [0] * len(alphas)
+i = 0
+
+for a in alphas:
+    clf = MLPClassifier(hidden_layer_sizes=(10), solver='lbfgs')
+    result = model_selection.cross_val_score(clf, df_X.values,
+        np.ravel(df_Y.values), cv=k)
+    results[i] = result.mean()
+    print(result.mean())
+    i += 1
+print('best n: ' + str(alphas[results.index(max(results))]))
+
+# predictions = clf.predict(df_test_X.values[:20000])
+# print(predictions)
+
+\end{verbatim}
+
+\section*{\normalsize\textbf{Random Forest CODE}}
+\begin{verbatim}
+"""
+@filename: r_forest.py
+@author: James Rolfe
+@date: 20170507
+@reqs: trainTargets.csv, trainTargets.csv, testPredictors.csvs
+"""
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import csv
+
+# cross validation
+from sklearn import model_selection
+
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+# get models
+from sklearn.ensemble import RandomForestClassifier
+# ============================================================================
+## preprocess data
+# training data sets
+df_X = pd.read_csv('trainPredictors.csv')
+df_Y = pd.read_csv('trainTargets.csv')
+
+X_ids = df_X['id']
+Y_ids = df_Y['id']
+
+df_X = df_X.drop('id', axis=1)
+df_Y = df_Y.drop('id', axis=1)
+
+# testing data set, this is what the submission should be based upon
+df_test_X = pd.read_csv('testPredictors.csv')
+df_test_X_ids = df_test_X['id']
+df_test_X = df_test_X.drop('id', axis=1)
+
+# testing
+# print(df_test_X.shape)
+# print(np.ravel(df_Y.values[:10]))
+
+# ============================================================================
+train_X, test_X, train_Y, test_Y = model_selection.train_test_split(df_X, df_Y,
+    test_size=.1)
+
+clf = RandomForestClassifier(n_estimators=90)
+clf.fit(train_X.values, np.ravel(train_Y.values))
+preds = clf.predict(test_X)
+print(confusion_matrix(test_Y, preds))
+# print(accuracy_score(preds, np.ravel(test_Y.values)))
+
+# df_pred = pd.DataFrame(preds, columns=['coverType_1to7'])
+# df_pred.insert(loc=0, column='id', value=np.ravel(df_test_X_ids.values))
+# print(df_pred[:10])
+# df_pred.to_csv('r_forest_90.csv', index=False)
+
+'''
+# prep cv
+k = model_selection.KFold(n_splits = 10)
+
+ns = [90] # best is 90
+results = [0] * len(ns)
+i = 0
+
+for n in ns:
+    clf = RandomForestClassifier(n_estimators=n)
+    result = model_selection.cross_val_score(clf, df_X.values,
+        np.ravel(df_Y.values), cv=k)
+    results[i] = result.mean()
+    print(result.mean())
+    i += 1
+print('best n: ' + str(ns[results.index(max(results))]))
+'''
+# predictions = clf.predict(df_test_X.values[:20000])
+# print(predictions)
+
+\end{verbatim}
+
+\section*{\normalsize\textbf{Logistic CODE}}
+\begin{verbatim}
+"""
+@filename: logistic.py
+@author: James Rolfe
+@date: 20170507
+@reqs: trainTargets.csv, trainTargets.csv, testPredictors.csvs
+"""
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import csv
+
+# get accuracy
+from sklearn.metrics import accuracy_score
+
+from sklearn import model_selection
+
+# get svm
+from sklearn.linear_model import LogisticRegression
+
+# training data sets
+df_X = pd.read_csv('trainPredictors.csv')
+df_Y = pd.read_csv('trainTargets.csv')
+
+X_ids = df_X['id']
+Y_ids = df_Y['id']
+
+df_X = df_X.drop('id', axis=1)
+df_Y = df_Y.drop('id', axis=1)
+
+print(df_X.shape)
+print(df_Y.shape)
+
+# testing data set, this is what the submission should be based upon
+df_test_X = pd.read_csv('testPredictors.csv')
+df_test_X_ids = df_test_X['id']
+df_test_X = df_test_X.drop('id', axis=1)
+
+# prep cv
+k = model_selection.KFold(n_splits = 10)
+
+ns = [90] # best is 90
+results = [0] * len(ns)
+i = 0
+
+for n in ns:
+    clf = LogisticRegression(solver='lbfgs')
+    result = model_selection.cross_val_score(clf, df_X.values,
+        np.ravel(df_Y.values), cv=k)
+    results[i] = result.mean()
+    print(result.mean())
+    i += 1
+print('best n: ' + str(ns[results.index(max(results))]))
+
+# predictions = clf.predict(df_test_X.values[:20000])
+# print(predictions)
+
+\end{verbatim}
+
+\section*{\normalsize\textbf{Adaboost CODE}}
+\begin{verbatim}
+"""
+@filename: adaboost.py
+@author: James Rolfe
+@date: 20170507
+@reqs: trainTargets.csv, trainTargets.csv, testPredictors.csvs
+"""
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import csv
+
+# cross validation
+from sklearn import model_selection
+from sklearn.ensemble import RandomForestClassifier
+# get svm
+from sklearn.ensemble import AdaBoostClassifier
+
+# ============================================================================
+## preprocess data
+# training data sets
+df_X = pd.read_csv('trainPredictors.csv')
+df_Y = pd.read_csv('trainTargets.csv')
+
+X_ids = df_X['id']
+Y_ids = df_Y['id']
+
+df_X = df_X.drop('id', axis=1)
+df_Y = df_Y.drop('id', axis=1)
+
+print(df_X.shape)
+print(df_Y.shape)
+
+# testing data set, this is what the submission should be based upon
+df_test_X = pd.read_csv('testPredictors.csv')
+df_test_X_ids = df_test_X['id']
+df_test_X = df_test_X.drop('id', axis=1)
+
+# testing
+# print(df_test_X.shape)
+# print(np.ravel(df_Y.values[:10]))
+
+# ============================================================================
+
+# cv
+k = model_selection.KFold(n_splits = 10)
+
+ns = [9] # best is 9
+results = [0] * len(ns)
+i = 0
+
+for n in ns:
+    clf = AdaBoostClassifier(
+        base_estimator=RandomForestClassifier(n_estimators=90))
+    result = model_selection.cross_val_score(clf, df_X.values,
+        np.ravel(df_Y.values), cv=k)
+    results[i] = result.mean()
+    print(result.mean())
+    i += 1
+print('best n: ' + str(ns[results.index(max(results))]))
+
+# predictions = clf.predict(df_test_X.values[:20000])
+# print(predictions)
+
+\end{verbatim}
+
+\section*{\normalsize\textbf{Bagging CODE}}
+\begin{verbatim}
+"""
+@filename: bag.py
+@author: James Rolfe
+@date: 20170507
+@reqs: trainTargets.csv, trainTargets.csv, testPredictors.csvs
+"""
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import csv
+
+# cross validation
+from sklearn import model_selection
+
+# get models
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import BaggingClassifier
+# ============================================================================
+## preprocess data
+# training data sets
+df_X = pd.read_csv('trainPredictors.csv')
+df_Y = pd.read_csv('trainTargets.csv')
+
+X_ids = df_X['id']
+Y_ids = df_Y['id']
+
+df_X = df_X.drop('id', axis=1)
+df_Y = df_Y.drop('id', axis=1)
+
+print(df_X.shape)
+print(df_Y.shape)
+
+# testing data set, this is what the submission should be based upon
+df_test_X = pd.read_csv('testPredictors.csv')
+df_test_X_ids = df_test_X['id']
+df_test_X = df_test_X.drop('id', axis=1)
+
+# testing
+# print(df_test_X.shape)
+# print(np.ravel(df_Y.values[:10]))
+
+# ============================================================================
+
+# prep cv
+# k = model_selection.KFold(n_splits=10)
+# add each model to the ensemble
+b_est = KNeighborsClassifier(n_neighbors=1)
+
+# create voting ensemble
+bag_model = BaggingClassifier(base_estimator=b_est, n_estimators=75)
+
+# get cv result
+# result = model_selection.cross_val_score(bag_model, df_X.values,
+#    np.ravel(df_Y.values), cv=k)
+# print(result.mean())
+
+bag_model.fit(df_X.values, np.ravel(df_Y.values))
+preds = bag_model.predict(df_test_X.values)
+
+df_pred = pd.DataFrame(preds, columns=['coverType_1to7'])
+df_pred.insert(loc=0, column='id', value=np.ravel(df_test_X_ids.values))
+print(df_pred[:10])
+df_pred.to_csv('bag_knn_75.csv', index=False)
+
+# predictions = clf.predict(df_test_X.values[:20000])
+# print(predictions)
+
+\end{verbatim}
+
+\section*{\normalsize\textbf{Voting CODE}}
+\begin{verbatim}
+"""
+@filename: voting.py
+@author: James Rolfe
+@date: 20170507
+@reqs: trainTargets.csv, trainTargets.csv, testPredictors.csvs
+"""
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import csv
+
+# cross validation
+from sklearn import model_selection
+
+from sklearn.metrics import accuracy_score
+
+# get models
+from sklearn.neural_network import MLPClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import VotingClassifier
+# ============================================================================
+## preprocess data
+# training data sets
+df_X = pd.read_csv('trainPredictors.csv')
+df_Y = pd.read_csv('trainTargets.csv')
+
+X_ids = df_X['id']
+Y_ids = df_Y['id']
+
+df_X = df_X.drop('id', axis=1)
+df_Y = df_Y.drop('id', axis=1)
+
+print(df_X.shape)
+print(df_Y.shape)
+
+# testing data set, this is what the submission should be based upon
+df_test_X = pd.read_csv('testPredictors.csv')
+df_test_X_ids = df_test_X['id']
+df_test_X = df_test_X.drop('id', axis=1)
+
+# testing
+# print(df_test_X.shape)
+# print(np.ravel(df_Y.values[:10]))
+
+# ============================================================================
+
+# prep cv
+# k = model_selection.KFold(n_splits = 10)
+
+train_X, test_X, train_Y, test_Y = model_selection.train_test_split(df_X, df_Y,
+    test_size=.1)
+
+# code below is based upon code from http://machinelearningmastery.com/ensemble-
+# machine-learning-algorithms-python-scikit-learn/
+# add each model to the ensemble
+models = []
+'''
+m0 = RandomForestClassifier(n_estimators=50)
+models.append(('r_forest', m0))
+'''
+m1 = RandomForestClassifier(n_estimators=60)
+models.append(('r_forest', m1))
+m2 = RandomForestClassifier(n_estimators=70)
+models.append(('r_forest', m2))
+m3 = RandomForestClassifier(n_estimators=80)
+models.append(('r_forest', m3))
+m4 = RandomForestClassifier(n_estimators=90)
+models.append(('r_forest', m4))
+m5 = KNeighborsClassifier(n_neighbors=1)
+models.append(('knn', m5))
+m6 = KNeighborsClassifier(n_neighbors=2)
+models.append(('knn', m6))
+m7 = KNeighborsClassifier(n_neighbors=3)
+models.append(('knn', m7))
+m8 = KNeighborsClassifier(n_neighbors=4)
+models.append(('knn', m8))
+m9 = KNeighborsClassifier(n_neighbors=5)
+models.append(('knn', m9))
+# create voting ensemble
+e = VotingClassifier(models, weights=[0.8,0.9,1,1.1,1.1,1.1,1,0.9,0.8])
+e.fit(train_X.values, np.ravel(train_Y.values))
+preds = e.predict(test_X.values)
+print(accuracy_score(np.ravel(test_Y.values), preds))
+'''
+df_pred = pd.DataFrame(preds, columns=['coverType_1to7'])
+df_pred.insert(loc=0, column='id', value=np.ravel(df_test_X_ids.values))
+print(df_pred[:10])
+df_pred.to_csv('voting_4forst_5knn_weights.csv', index=False)
+'''
+# get cv result
+# result = model_selection.cross_val_score(e, df_X.values, np.ravel(df_Y.values)
+#    , cv=k)
+# print(result.mean())
+
+# predictions = clf.predict(df_test_X.values[:20000])
+# print(predictions)
+
+\end{verbatim}
+
+\end{document}

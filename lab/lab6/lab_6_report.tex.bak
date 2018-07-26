@@ -1,0 +1,63 @@
+\documentclass[12pt]{article}
+
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{etoolbox}
+
+\begin{document}
+
+\begin{flushleft}
+\textbf{Name: James Rolfe} \\
+\textbf{Date: \today} \\
+\textbf{Student ID: 2630058} \\
+\textbf{Course: EECS 738} \\
+Collaborated with: \textit{Paul McElroy, Ethan Ward}\\
+\end{flushleft}
+
+\begin{center}
+\large\textbf{Lab 6 Report}
+\end{center}
+\textit{\textbf{** Using 1 Late Day **}}
+\section*{\normalsize\textbf{Code Flow}}
+The code consists of three functions followed by hard-coded data sets and calls to the functions. The hard-coded data sets consist of one linearly separable data set and one that is not linearly separable. \\
+\newline
+The first function \texttt{weight\_vector()} uses the following equation to compute the primal weight vector using the passed parameters: $$ \textbf{w}_i = \sum^{N}_{i=1}\alpha_iy_i\textbf{x}_i $$
+The second function \texttt{support()} uses the following rule to find the support vectors (moments that define the largest classification margin) using the passed parameters:
+\begin{center}
+\texttt{moment\_i is a support vector iff: } $|y_i(\textbf{w}^T\textbf{x}_i + b) - 1| \leq $ \texttt{tolerance}
+\end{center}
+The third function \texttt{slack()} uses the following rule to find the slack vectors (moments that would be miss-classified given the separating hyperplane) using the passed parameters: 
+\begin{center}
+\texttt{moment\_i is a slack vector iff: } $y_i(\textbf{w}^T\textbf{x}_i + b) - 1 < 0 $
+\end{center}
+\section*{\normalsize\textbf{Results and Explanation}}
+The raw output follows:
+\begin{verbatim}
+primal weight vector:
+[ 0.2  0.8]
+
+support vectors:
+set([0, 2, 4])
+
+slack vectors:
+set([4, 6])
+\end{verbatim}
+\begin{figure}[!ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{separable.png}
+  \caption*{Support Vectors are bolded}
+  \label{fig:sfig1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{inseparable.png}
+  \caption*{Slack Vectors are bolded}
+  \label{fig:sfig2}
+\end{subfigure}
+\caption{Plots of Separable and Inseparable Data}
+\label{fig:fig}
+\end{figure}
+\end{document}

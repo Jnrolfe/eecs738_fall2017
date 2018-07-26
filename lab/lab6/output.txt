@@ -1,0 +1,9 @@
+primal weight vector:
+[ 0.2  0.8]
+
+support vectors:
+set([0, 2, 4])
+
+slack vectors:
+set([4, 6])
+

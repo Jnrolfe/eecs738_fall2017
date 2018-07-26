@@ -1,0 +1,25 @@
+\documentclass[12pt]{article}
+
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{etoolbox}
+
+\begin{document}
+
+\begin{flushleft}
+\textbf{Name: James Rolfe} \\
+\textbf{Date: \today} \\
+\textbf{Student ID: 2630058} \\
+\textbf{Course: EECS 738}
+\end{flushleft}
+
+\begin{center}
+\large\textbf{LAB 2 REPORT}
+\end{center}
+
+\section*{\normalsize\textbf{Summary}}
+For the Naive Bayes part of this lab we basically took the training data and found the mean and standard deviation of each feature(column) then used that information to build a normal(gaussian) distribution. With the normal distribution we took each data point from the corresponding feature of the test data and found its probability. Then we multiplied each probability of each feature for every row(unclassified data point) to get its conditional probability. We can do this because of the assumption that the Naive Bayes algorithm makes: every feature is independent of one another given the class. Finally, we made a prediction by choosing the highest probability among all the classes(0 or 1) and checked our predictions against the ground truth of the test data. To present the data we used a confusion matrix. To calculate accuracy we took the True Positives plus the True Negative classifications over all the classifications, as shown in our confusion matrix.
+
+\end{document}

@@ -1,0 +1,78 @@
+*** 1C ***
+joint probability table for sample size: 100
+          |    D   |   R    
+   A<30   |  0.12  |  0.16  
+30<=A<=50 |  0.14  |  0.11  
+   A>50   |  0.20  |  0.27  
+
+joint probability table for sample size: 1000
+          |    D   |   R    
+   A<30   |  0.15  |  0.15  
+30<=A<=50 |  0.15  |  0.15  
+   A>50   |  0.16  |  0.23  
+
+joint probability table for sample size: 10000
+          |    D   |   R    
+   A<30   |  0.14  |  0.16  
+30<=A<=50 |  0.14  |  0.16  
+   A>50   |  0.18  |  0.22  
+*** 2A ***
+* assumes number of families = 1000
+probability of having two sons is: 0.262
+*** 2AI ***
+* assumes number of families = 1000
+families that have at least one son, the probability of having two sons is: 0.349
+*** 2AII ***
+* assumes number of families = 1000
+families whose first child is a boy, the probability of having two sons is: 0.520
+*** 2B ***
+===== NUMBER OF FAMILIES: 1000 =====
+one child's gender is known, the probability of having two children of the same sex is: 0.512
+
+===== NUMBER OF FAMILIES: 500 =====
+one child's gender is known, the probability of having two children of the same sex is: 0.474
+
+===== NUMBER OF FAMILIES: 100 =====
+one child's gender is known, the probability of having two children of the same sex is: 0.480
+
+===== NUMBER OF FAMILIES: 50 =====
+one child's gender is known, the probability of having two children of the same sex is: 0.360
+
+===== NUMBER OF FAMILIES: 10 =====
+one child's gender is known, the probability of having two children of the same sex is: 0.300
+*** 3 ***
+Probability of scoring a zero in 1 experiments: 0.00294117647059
+Probability of scoring a zero in 10 experiments: 0.00205882352941
+*** 4 ***
+The mean of 1000 samples from a normal distribution with mean 10 and standard deviation of 4 is: 10.0023127267
+it's variance is: 16.1739952076
+*** 5 ***
+========== UNIFORM RESULTS ==========
+population mean for 25 data points and 10 samples is: 0.504698491831
+population mean for 10 data points and 10 samples is: 0.496565309525
+population mean for 50 data points and 10 samples is: 0.479261810404
+population mean for 100 data points and 10 samples is: 0.50300816279
+population mean for 500 data points and 10 samples is: 0.501527907208
+population mean for 1000 data points and 10 samples is: 0.496576187843
+population mean for 10 data points and 25 samples is: 0.472136300918
+population mean for 10 data points and 10 samples is: 0.464257053867
+population mean for 10 data points and 50 samples is: 0.496302228982
+population mean for 10 data points and 100 samples is: 0.493807306908
+population mean for 10 data points and 500 samples is: 0.496181884456
+population mean for 10 data points and 1000 samples is: 0.500177107926
+
+========== EXPONENTIAL RESULTS ==========
+population mean for 25 data points and 10 samples is: 0.964827481018
+population mean for 10 data points and 10 samples is: 1.03208403791
+population mean for 50 data points and 10 samples is: 0.986618703382
+population mean for 100 data points and 10 samples is: 1.01050162513
+population mean for 500 data points and 10 samples is: 1.00228627593
+population mean for 1000 data points and 10 samples is: 0.984781018056
+population mean for 10 data points and 25 samples is: 0.954499347822
+population mean for 10 data points and 10 samples is: 1.0167696414
+population mean for 10 data points and 50 samples is: 1.06535304928
+population mean for 10 data points and 100 samples is: 0.981397098666
+population mean for 10 data points and 500 samples is: 0.992320366417
+population mean for 10 data points and 1000 samples is: 0.989207956693
+*** 6 ***
+Not sure what to do here ...

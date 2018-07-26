@@ -1,0 +1,29 @@
+\documentclass[12pt]{article}
+
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{etoolbox}
+
+\begin{document}
+
+\begin{flushleft}
+\textbf{Name: James Rolfe} \\
+\textbf{Date: \today} \\
+\textbf{Student ID: 2630058} \\
+\textbf{Course: EECS 738}
+\end{flushleft}
+
+\begin{center}
+\large\textbf{LAB 3 REPORT}
+\end{center}
+
+\section*{\normalsize\textbf{Linear Regression}}
+For linear regression we perform 3 steps. The first step is pre-processing the data. During pre-processing we normalize all the data (using normalization by standard deviation), split the data into predictors and response variables (X and Y), and finally convert the data into matrices so they can be manipulated easier. The second step is define the cost function and calculate the gradient of that cost function. The third and last step is to define a learning rate and number of iterations to update the beta estimates using the calculated gradient. The learning rate dictates how big of an effect the gradient has on the next beta estimate. The larger the learning rate, the bigger the differences between the beta estimates. \\ \newline
+For ridge regression we perform the same steps as before except now the cost function has a penalty for betas larger than 1. The penalty is defined by a shrinkage parameter ($\lambda$) multiplied by the sum of the square of the betas. As the gradient is a derivative of the cost function, and the cost function has changed, the gradient for ridge regression is slightly different. The learning rate, as mentioned before, affects both the gradient and penalty's effect on the new beta's estimate. \\ \newline
+In the results of \texttt{LinearRegression.py} we see that the ridge regression's MSE is slightly larger than the linear regression's. This is because the ridge regression's penalty is to make the model more generalizable, so it should be expected that the MSE on the training data for ridge regression is higher than the non-regularized linear regression.
+\section*{\normalsize\textbf{Logistical Regression}}
+Much like the linear regression, the data also needs to be normalized, however in the logistic regression the response variables (Y) do not need to be normalized since they are boolean values indicating class, rather than value. Other than normalization, the pre-processing of the data is the same as the linear regression. The second step (cost function and gradient) has a different cost function than linear regression, but astonishingly has the same gradient as the linear regression. The third step of logistical regression is very similar to the linear regression and therefore doesn't need more clarification. \\ \newline
+In the results of \texttt{LinearRegression.py} the accuracy of the model is calculated using a confusion matrix. To calculate accuracy, the True Positive plus the True Negative classifications are divided by the total classifications. With these results we found that the gradient descent actually produced a model with accuracy better than the \texttt{SciPy Optimize} library (90\% vs 89\% accuracy).
+\end{document}
